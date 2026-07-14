@@ -1,0 +1,18 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: PyTorch.compile (daemon)
+# Seed: 1783973229424
+# Timestamp: 20260714_040856
+# Exit code: 1
+# Elapsed: 918ms
+# ============================================================
+
+--- STDOUT ---
+
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/home/xyzboom/Code/kotlin/aiFuzzer/pytorch_daemon.py", line 91, in run_source
+    exec(source, {
+  File "<string>", line 123, in <module>
+RuntimeError: VERIFY: FAIL
