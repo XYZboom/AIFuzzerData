@@ -1,0 +1,111 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: PyTorch.compile (daemon)
+# Seed: 1784132853215
+# Timestamp: 20260716_003301
+# Exit code: 1
+# Elapsed: 403ms
+# ============================================================
+
+--- STDOUT ---
+
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/home/xyzboom/Code/kotlin/aiFuzzer/pytorch_daemon.py", line 91, in run_source
+    exec(source, {
+  File "<string>", line 109, in <module>
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 511, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 1183, in compile_wrapper
+    raise e.remove_dynamo_frames() from None  # see TORCHDYNAMO_VERBOSE=1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1079, in _compile_fx_inner
+    raise InductorError(e, currentframe()).with_traceback(
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1059, in _compile_fx_inner
+    mb_compiled_graph = fx_codegen_and_compile(
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1847, in fx_codegen_and_compile
+    return scheme.codegen_and_compile(gm, example_inputs, inputs_to_check, graph_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1608, in codegen_and_compile
+    compiled_module = graph.compile_to_module()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2669, in compile_to_module
+    return self._compile_to_module()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2675, in _compile_to_module
+    self.codegen_with_cpp_wrapper() if self.cpp_wrapper else self.codegen()
+                                                             ^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2611, in codegen
+    self.scheduler.codegen()
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 9206, in codegen
+    self._codegen_partitions()
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 9354, in _codegen_partitions
+    self._codegen(partition)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 9508, in _codegen
+    self.get_backend(device).codegen_node(node)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 5551, in codegen_node
+    cpp_kernel_proxy.codegen_nodes(nodes)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 4714, in codegen_nodes
+    self.codegen_functions(fn_list, var_sizes_list)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 4503, in codegen_functions
+    scalar_kernel = codegen_kernel(self.kernel_cls)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 4480, in codegen_kernel
+    run(kernel)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 4492, in run
+    fn(vars, reduction_vars)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/cpp.py", line 4695, in fn
+    return node.codegen(index_vars)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 2495, in codegen
+    with (
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/codegen/common.py", line 2206, in set_current_node
+    self.node_to_bounds = node._body.bounds().get_bounds()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 6, in get_bounds_cache_on_self
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/bounds.py", line 82, in get_bounds
+    interpreter.run(V.get_ops_handler(), initial_env=self._bounds)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/loop_body.py", line 64, in run
+    return super().run(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/fx/interpreter.py", line 197, in run
+    self.env[node] = self.run_node(node)
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/loop_body.py", line 60, in run_node
+    return super().run_node(n)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/fx/interpreter.py", line 294, in run_node
+    return getattr(self, n.op)(n.target, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/fx/interpreter.py", line 402, in call_method
+    return getattr(self_obj, target)(*args_tail, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/bounds.py", line 267, in sub
+    return cls.add(a, cls.neg(b))
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/utils/_sympy/value_ranges.py", line 653, in add
+    return ValueRanges.coordinatewise_increasing_map(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/utils/_sympy/value_ranges.py", line 413, in coordinatewise_increasing_map
+    return ValueRanges(
+           ^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/utils/_sympy/value_ranges.py", line 158, in __init__
+    lower = simple_sympify(lower)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/utils/_sympy/value_ranges.py", line 73, in simple_sympify
+    raise AssertionError("sympy expression is NaN")
+torch._inductor.exc.InductorError: AssertionError: sympy expression is NaN
+
+Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"
