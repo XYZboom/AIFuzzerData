@@ -1,0 +1,10 @@
+{"kind":"visitMetadata","graphCount":1,"graphNames":["graph_0"],"metadata":{}}
+{"kind":"visitGraph","graph":0,"name":"graph_0","inputIds":[],"outputIds":["v_51_oydl0u8g"]}
+{"kind":"visitValue","id":"v_51_oydl0u8g","ndim":0,"shape":[],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"broadcast_compat_zeros_tfnhyreq","op":"ZEROS","inputIds":[],"outputIds":["v_32_pko0wco6"],"attrs":{}}
+{"kind":"visitValue","id":"v_32_pko0wco6","ndim":1,"shape":[{"kind":"CONSTANT","value":1}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"argmax_24_mtqi7v5u","op":"ARGMAX","inputIds":["v_32_pko0wco6"],"outputIds":["v_38_hg14xz6z"],"attrs":{"axis":-1}}
+{"kind":"visitValue","id":"v_38_hg14xz6z","ndim":0,"shape":[],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"multiply_35_6re1u68l","op":"MULTIPLY","inputIds":["v_38_hg14xz6z","v_38_hg14xz6z"],"outputIds":["v_49_heyr04je"],"attrs":{}}
+{"kind":"visitValue","id":"v_49_heyr04je","ndim":0,"shape":[],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"log_softmax_37_qx0m4o7p","op":"LOG_SOFTMAX","inputIds":["v_49_heyr04je"],"outputIds":["v_51_oydl0u8g"],"attrs":{"axis":-1}}
