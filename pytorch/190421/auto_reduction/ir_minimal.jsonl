@@ -1,0 +1,8 @@
+{"kind":"visitMetadata","graphCount":1,"graphNames":["graph_0"],"metadata":{}}
+{"kind":"visitGraph","graph":0,"name":"graph_0","inputIds":[],"outputIds":["v_28_d5wnwch3"]}
+{"kind":"visitValue","id":"v_28_d5wnwch3","ndim":3,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":4},{"kind":"CONSTANT","value":3}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"conv2d_weight_2tvsa053","op":"FULL","inputIds":[],"outputIds":["v_18_3976w0ih"],"attrs":{"fill_value":"0.1","shape":"(1, 4, 3, 1)","dtype":"float32"}}
+{"kind":"visitValue","id":"v_18_3976w0ih","ndim":4,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":4},{"kind":"CONSTANT","value":3},{"kind":"CONSTANT","value":1}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"log_11_zq1e4k2m","op":"LOG","inputIds":["v_18_3976w0ih"],"outputIds":["v_20_eglzyfkr"],"attrs":{}}
+{"kind":"visitValue","id":"v_20_eglzyfkr","ndim":4,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":4},{"kind":"CONSTANT","value":3},{"kind":"CONSTANT","value":1}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"reduce_sum_19_rtudybe1","op":"REDUCE_SUM","inputIds":["v_20_eglzyfkr"],"outputIds":["v_28_d5wnwch3"],"attrs":{"axis":-1,"keepdims":0,"dtype":"int32"}}

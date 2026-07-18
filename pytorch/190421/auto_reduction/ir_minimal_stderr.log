@@ -1,0 +1,116 @@
+=== STDOUT ===
+
+=== STDERR ===
+Traceback (most recent call last):
+  File "/home/xyzboom/Code/kotlin/aiFuzzer/daemon/pytorch_daemon.py", line 91, in run_source
+    exec(source, {
+  File "<string>", line 34, in <module>
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 511, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 1183, in compile_wrapper
+    raise e.remove_dynamo_frames() from None  # see TORCHDYNAMO_VERBOSE=1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1079, in _compile_fx_inner
+    raise InductorError(e, currentframe()).with_traceback(
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1059, in _compile_fx_inner
+    mb_compiled_graph = fx_codegen_and_compile(
+                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1847, in fx_codegen_and_compile
+    return scheme.codegen_and_compile(gm, example_inputs, inputs_to_check, graph_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/compile_fx.py", line 1608, in codegen_and_compile
+    compiled_module = graph.compile_to_module()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2669, in compile_to_module
+    return self._compile_to_module()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2675, in _compile_to_module
+    self.codegen_with_cpp_wrapper() if self.cpp_wrapper else self.codegen()
+                                                             ^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2607, in codegen
+    self._update_scheduler()
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/graph.py", line 2601, in _update_scheduler
+    self.scheduler = Scheduler(self.operations)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 4036, in __init__
+    self._init(nodes)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 4053, in _init
+    self.nodes = [self.create_scheduler_node(n) for n in nodes]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 4053, in <listcomp>
+    self.nodes = [self.create_scheduler_node(n) for n in nodes]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 4386, in create_scheduler_node
+    return SchedulerNode(self, node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 2199, in __init__
+    self._compute_attrs()
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/scheduler.py", line 2207, in _compute_attrs
+    self._sizes, body = self.node.simplify_and_reorder(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ir.py", line 5456, in simplify_and_reorder
+    ) = self.get_default_sizes_body()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 6, in get_default_sizes_body_cache_on_self
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ir.py", line 5409, in get_default_sizes_body
+    body = LoopBody(
+           ^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/loop_body.py", line 143, in __init__
+    self._init_with_tracing(fn, args)
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/loop_body.py", line 173, in _init_with_tracing
+    self.root_block = LoopBodyBlock(self, fn, args)  # traces
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/loop_body.py", line 609, in __init__
+    ops.output(fn(*args))
+               ^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ir.py", line 1179, in store_output
+    return ops.store(output_name or "unnamed", indexer(vars), loader(vars))
+                                                              ^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/lowering.py", line 786, in inner_fn
+    out = load(index)
+          ^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ir.py", line 1724, in fn
+    return inner_fn(index, reduction_index)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/lowering.py", line 6937, in loader
+    value = inner_loader(new_index)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/lowering.py", line 793, in inner_fn
+    out = fn(*inputs_loaded)
+          ^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/lowering.py", line 933, in _to_dtype
+    result = ops.to_dtype(
+             ^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ops_handler.py", line 814, in call_default
+    return self._default(target, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/virtualized.py", line 337, in _default
+    return OpsWrapper._wrap(getattr(_ops, name)(*new_args, **new_kwargs))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/ops_handler.py", line 814, in call_default
+    return self._default(target, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/index_propagation.py", line 319, in _default
+    return self.propagate_sympy(name, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/index_propagation.py", line 297, in propagate_sympy
+    new_expr = getattr(SymPyOps, name)(*new_args, **new_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/index_propagation.py", line 111, in to_dtype
+    return TypedExpr(value.expr, dtype)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 5, in __init__
+  File "/home/xyzboom/Programs/miniconda3/envs/aifuzzer/lib/python3.11/site-packages/torch/_inductor/index_propagation.py", line 69, in __post_init__
+    expr = dtype_to_type(self.dtype)(expr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch._inductor.exc.InductorError: OverflowError: cannot convert float infinity to integer
+
+Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"
+
