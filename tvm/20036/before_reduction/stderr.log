@@ -1,0 +1,49 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: TVM Relax (daemon)
+# Seed: 1784507671065
+# Timestamp: 20260720_083507
+# Exit code: 1
+# Elapsed: 1563ms
+# ============================================================
+
+--- STDOUT ---
+Module built successfully
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/tmp/aiFuzzer_remote/tvm_daemon.py", line 72, in run_source
+    exec(source, {"tvm": tvm, "relax": relax, "op": op})
+  File "<string>", line 232, in <module>
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/vm_build.py", line 276, in build
+    return _vmlink(
+           ^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/vm_build.py", line 157, in _vmlink
+    lib = tvm.tirx.build(tir_mod, target=target, pipeline=tir_pipeline)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/tirx/build.py", line 227, in build
+    mod = pipeline(mod)
+          ^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/pipeline.py", line 118, in _pipeline
+    mod = tvm.ir.transform.Sequential(passes)(mod)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in tvm::tirx::StmtVisitor::VisitStmt_(tvm::tirx::SeqStmtNode const*)
+  File "<unknown>", line 0, in tvm::tirx::StmtVisitor::VisitStmt_(tvm::tirx::IfThenElseNode const*)
+  File "<unknown>", line 0, in tvm::tirx::StmtVisitor::VisitStmt_(tvm::tirx::SeqStmtNode const*)
+  File "<unknown>", line 0, in tvm::tirx::StmtVisitor::VisitStmt_(tvm::tirx::BufferStoreNode const*)
+  File "<unknown>", line 0, in tvm::tirx::ExprVisitor::VisitExpr_(tvm::tirx::FloorModNode const*)
+  File "<unknown>", line 0, in tvm::tirx::ExprVisitor::VisitExpr_(tvm::tirx::FloorModNode const*)
+  File "<unknown>", line 0, in tvm::tirx::ExprVisitor::VisitExpr_(tvm::tirx::FloorModNode const*)
+  File "/project/src/tirx/transform/storage_rewrite.cc", line 1328, in void tvm::tirx::VectorTypeAccessChecker::OnArrayAccess(tvm::DataType, const tvm::tirx::VarNode*, const tvm::ffi::Array<tvm::PrimExpr>&, bool)
+tvm.error.InternalError: Check failed: (it != info_map_.end()) is false: Load/Store of buffer gv30_red (0x9e20f80) occurred before its declaration.
