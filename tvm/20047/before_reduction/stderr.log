@@ -1,0 +1,57 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: TVM Relax (daemon)
+# Seed: 1784896052347
+# Timestamp: 20260724_202837
+# Exit code: 1
+# Elapsed: 1959ms
+# ============================================================
+
+--- STDOUT ---
+Module built successfully
+
+--- STDERR ---
+Target cuda missing 'max_shared_memory_per_block'; using 49152 bytes.
+Traceback (most recent call last):
+  File "/root/Code/kotlin/aifuzzer/daemon/tvm_daemon.py", line 72, in run_source
+    exec(source, {"tvm": tvm, "relax": relax, "op": op})
+  File "<string>", line 406, in <module>
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/vm_build.py", line 270, in build
+    mod = relax_pipeline(mod)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/backend/cuda/pipeline.py", line 87, in _pipeline
+    mod = seq(mod)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 238, in _pass_func
+    return inst.transform_module(mod, ctx)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 70, in transform_module
+    sch = _apply_rules(func, target, self.rules, tunable=False)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 88, in _apply_rules
+    space = rule.apply(func, target, tunable)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/gemv.py", line 79, in apply
+    return self.sch_inner_reduction(sch, target, block, vector_input_buffers, epilogue)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/gemv.py", line 412, in sch_inner_reduction
+    return apply(
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/gemv.py", line 228, in apply
+    assert sch.get(ts_o).extent.value == 1
+    
+AttributeError: 'FloorDiv' object has no attribute 'value'

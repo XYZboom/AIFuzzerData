@@ -1,0 +1,7 @@
+{"kind":"visitMetadata","graphCount":1,"graphNames":["graph_1"],"metadata":{}}
+{"kind":"visitGraph","graph":0,"name":"graph_1","inputIds":["v_30_90kai4jz"],"outputIds":["v_33_843judqx"]}
+{"kind":"visitValue","id":"v_30_90kai4jz","ndim":4,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":3},{"kind":"CONSTANT","value":10}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitValue","id":"v_33_843judqx","ndim":4,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":3},{"kind":"CONSTANT","value":9}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"conv2d_weight_zlgcgy7r","op":"FULL","inputIds":[],"outputIds":["v_32_7rrxmow7"],"attrs":{"fill_value":"0.1","shape":"(1, 1, 1, 2)","dtype":"float32"}}
+{"kind":"visitValue","id":"v_32_7rrxmow7","ndim":4,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":2}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"conv2d_1_3gxc0m70","op":"CONV2D","inputIds":["v_30_90kai4jz","v_32_7rrxmow7"],"outputIds":["v_33_843judqx"],"attrs":{"stride":1,"padding":0,"dilation":1,"groups":1}}
