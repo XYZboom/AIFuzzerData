@@ -1,0 +1,141 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: TVM Relax (daemon)
+# Seed: 20260896
+# Timestamp: 20260724_205728
+# Exit code: 1
+# Elapsed: 2884ms
+# ============================================================
+
+--- STDOUT ---
+Module built successfully
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/root/Code/kotlin/aifuzzer/daemon/tvm_daemon.py", line 72, in run_source
+    exec(source, {"tvm": tvm, "relax": relax, "op": op})
+  File "<string>", line 593, in <module>
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/vm_build.py", line 270, in build
+    mod = relax_pipeline(mod)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/backend/cuda/pipeline.py", line 87, in _pipeline
+    mod = seq(mod)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 238, in _pass_func
+    return inst.transform_module(mod, ctx)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 70, in transform_module
+    sch = _apply_rules(func, target, self.rules, tunable=False)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 88, in _apply_rules
+    space = rule.apply(func, target, tunable)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/reduction.py", line 111, in apply
+    self._sch_inner_spatial(
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/reduction.py", line 285, in _sch_inner_spatial
+    sch.bind(s, "threadIdx.x")
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/schedule/_type_checker.py", line 368, in wrap
+    return func(*args, **kwargs)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/schedule/schedule.py", line 1302, in bind
+    _ffi_api.ScheduleBind(self, loop, thread_axis)  # type: ignore # pylint: disable=no-member
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "/project/src/s_tir/schedule/concrete_schedule.cc", line 652, in virtual void tvm::s_tir::ConcreteScheduleNode::Bind(const tvm::s_tir::LoopRV&, const tvm::ffi::String&)
+tvm.s_tir.schedule.schedule.ScheduleError: ScheduleError: An error occurred in the schedule primitive 'bind'.
+
+The IR with diagnostic is:
+# from tvm.script import ir as I
+# from tvm.script import tirx as T
+# from tvm.tirx.layout import Axis
+
+@I.ir_module
+class Module:
+    @T.prim_func(private=True, s_tir=True)
+    def main(var_gv159: T.handle, var_gv167: T.handle, var_conv2d_nchw: T.handle):
+        T.func_attr({"op_pattern": 4, "tirx.noalias": True})
+        gv159 = T.match_buffer(var_gv159, (T.int64(5), T.int64(6), T.int64(20), T.int64(24)))
+        gv167 = T.match_buffer(var_gv167, (T.int64(1), T.int64(6), T.int64(3), T.int64(1)))
+        conv2d_nchw = T.match_buffer(var_conv2d_nchw, (T.int64(5), T.int64(1), T.int64(18), T.int64(24)))
+        with T.sblock("root"):
+            T.reads()
+            T.writes()
+            conv2d_nchw_rf_local = T.sblock_alloc_buffer((T.int64(16), T.int64(5), T.int64(1), T.int64(18), T.int64(24)), scope="local")
+            for ax0_ax1_ax2_fused_0 in T.thread_binding(T.int64(180), thread="blockIdx.x"):
+                for ax0_ax1_ax2_fused_1 in T.thread_binding(T.int64(12), thread="threadIdx.x"):
+                    for ax3_ax4_fused_1 in T.thread_binding(T.int64(16), thread="threadIdx.y"):
+                        with T.sblock("conv2d_nchw_rf_init"):
+                            vax3_ax4_fused_1 = T.axis.spatial(T.int64(16), ax3_ax4_fused_1)
+                            v0 = T.axis.spatial(T.int64(5), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) // T.int64(432))
+                            v1 = T.axis.spatial(T.int64(18), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) % T.int64(432) // T.int64(24))
+                            v2 = T.axis.spatial(T.int64(24), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) % T.int64(24))
+                            T.reads()
+                            T.writes(conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2])
+                            conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2] = T.float32(0.0)
+                        for ax3_ax4_fused_0 in range(T.int64(2)):
+                            for u in range(1):
+                                with T.sblock("conv2d_nchw_rf_update"):
+                                    vax3_ax4_fused_1 = T.axis.spatial(T.int64(16), ax3_ax4_fused_1)
+                                    v0 = T.axis.spatial(T.int64(5), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) // T.int64(432))
+                                    v1 = T.axis.spatial(T.int64(18), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) % T.int64(432) // T.int64(24))
+                                    v2 = T.axis.spatial(T.int64(24), (ax0_ax1_ax2_fused_0 * T.int64(12) + ax0_ax1_ax2_fused_1) % T.int64(24))
+                                    vax3_ax4_fused_0 = T.axis.reduce(T.int64(2), ax3_ax4_fused_0)
+                                    T.where(ax3_ax4_fused_0 * T.int64(16) + ax3_ax4_fused_1 < T.int64(18))
+                                    T.reads(conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2], gv159[v0, (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) // T.int64(3), v1 + (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) % T.int64(3), v2], gv167[T.int64(0), (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) // T.int64(3), (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) % T.int64(3), T.int64(0)])
+                                    T.writes(conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2])
+                                    conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2] = conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2] + gv159[v0, (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) // T.int64(3), v1 + (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) % T.int64(3), v2] * gv167[T.int64(0), (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) // T.int64(3), (vax3_ax4_fused_0 * T.int64(16) + vax3_ax4_fused_1) % T.int64(3), T.int64(0)]
+                # tirx.For#0
+                for ax1_ax2_ax3_fused in range(T.int64(12)):
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    for ax0 in range(T.int64(16)):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        # tirx.SBlock#1
+                        with T.sblock("conv2d_nchw"):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            vax3_ax4_fused_1 = T.axis.reduce(T.int64(16), ax0)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            v0 = T.axis.spatial(T.int64(5), T.Add(ax0_ax1_ax2_fused_0 // T.int64(36), T.int64(0)))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            v1 = T.axis.spatial(T.int64(18), T.Add(ax0_ax1_ax2_fused_0 // T.int64(2) - ax0_ax1_ax2_fused_0 // T.int64(36) * T.int64(18), T.int64(0)))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            v2 = T.axis.spatial(T.int64(24), ax0_ax1_ax2_fused_0 % T.int64(2) * T.int64(12) + ax1_ax2_ax3_fused % T.int64(12))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            T.reads(conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            T.writes(conv2d_nchw[v0, T.int64(0), v1, v2])
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            with T.init():
+                            ^^^^^^^^^^^^^^
+                                conv2d_nchw[v0, T.int64(0), v1, v2] = T.float32(0.0)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                            conv2d_nchw[v0, T.int64(0), v1, v2] = conv2d_nchw[v0, T.int64(0), v1, v2] + conv2d_nchw_rf_local[vax3_ax4_fused_1, v0, T.int64(0), v1, v2]
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error message: The queried subtree root tirx.For#0 in SRef tree does not have compact dataflow, because its child block tirx.SBlock#1 on SRef tree is neither a local complete block nor a local reduction block.
+It violates condition #1 as a local complete block.
+Definition of a local complete block:
+1) All block vars are data parallel
+2) Local Dominant: the block is the only writer of its output, dominating the reader of its output buffers under a given subtree
+3) No overlap between the buffers the block reads and writes
+It violates condition #2 as a local reduction block.
+Definition of a reduction block:
+1) The block has the `init` statement
+2) All the block bindings are quasi-affine expressions
+3) All block vars are either data parallel block vars or reduction block vars
+4) Local Dominant: the block is the only writer of its output, dominating the reader of its output buffers under a given subtree
+5) The reduction block vars are not used to index the output buffers
