@@ -1,0 +1,5 @@
+{"kind":"visitMetadata","graphCount":1,"graphNames":["graph_2"],"metadata":{}}
+{"kind":"visitGraph","graph":0,"name":"graph_2","inputIds":["v_17_it2n9tx2"],"outputIds":["v_18_b6lcx44f"]}
+{"kind":"visitValue","id":"v_17_it2n9tx2","ndim":1,"shape":[{"kind":"CONSTANT","value":1}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitValue","id":"v_18_b6lcx44f","ndim":0,"shape":[],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"argmin_0_yyhzjjzh","op":"ARGMIN","inputIds":["v_17_it2n9tx2"],"outputIds":["v_18_b6lcx44f"],"attrs":{"axis":-1}}
