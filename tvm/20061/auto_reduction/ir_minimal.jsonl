@@ -1,0 +1,17 @@
+{"kind":"visitMetadata","graphCount":1,"graphNames":["graph_0"],"metadata":{}}
+{"kind":"visitGraph","graph":0,"name":"graph_0","inputIds":["v_1_nakcrlja"],"outputIds":["v_16_l568meiu"]}
+{"kind":"visitValue","id":"v_1_nakcrlja","ndim":2,"shape":[{"kind":"CONSTANT","value":6},{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitValue","id":"v_16_l568meiu","ndim":2,"shape":[{"kind":"CONSTANT","value":1},{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"rsqrt_3_s9nyf1rh","op":"RSQRT","inputIds":["v_1_nakcrlja"],"outputIds":["v_5_g1h2ncu8"],"attrs":{}}
+{"kind":"visitValue","id":"v_5_g1h2ncu8","ndim":2,"shape":[{"kind":"CONSTANT","value":6},{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"sigmoid_5_uiy67thz","op":"SIGMOID","inputIds":["v_5_g1h2ncu8"],"outputIds":["v_7_yzk2x91n"],"attrs":{}}
+{"kind":"visitValue","id":"v_7_yzk2x91n","ndim":2,"shape":[{"kind":"CONSTANT","value":6},{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"reduce_mean_7_tqausl78","op":"REDUCE_MEAN","inputIds":["v_7_yzk2x91n"],"outputIds":["v_9_68vpx57c"],"attrs":{"axis":-1,"keepdims":0,"dtype":"float32"}}
+{"kind":"visitValue","id":"v_9_68vpx57c","ndim":1,"shape":[{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"reduce_mean_9_85m35ai1","op":"REDUCE_MEAN","inputIds":["v_9_68vpx57c"],"outputIds":["v_11_ehuyjkij"],"attrs":{"axis":-1,"keepdims":0}}
+{"kind":"visitValue","id":"v_11_ehuyjkij","ndim":0,"shape":[],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"mish_10_k0yi06m2","op":"MISH","inputIds":["v_9_68vpx57c"],"outputIds":["v_12_vh7yvfwa"],"attrs":{}}
+{"kind":"visitValue","id":"v_12_vh7yvfwa","ndim":1,"shape":[{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"divide_12_68jajkp4","op":"DIVIDE","inputIds":["v_12_vh7yvfwa","v_11_ehuyjkij"],"outputIds":["v_14_gy1kwaqp"],"attrs":{}}
+{"kind":"visitValue","id":"v_14_gy1kwaqp","ndim":1,"shape":[{"kind":"CONSTANT","value":6}],"dtype":{"name":"float32","bits":32}}
+{"kind":"visitNode","graph":0,"name":"unsqueeze_14_pgwvehi6","op":"UNSQUEEZE","inputIds":["v_14_gy1kwaqp"],"outputIds":["v_16_l568meiu"],"attrs":{}}

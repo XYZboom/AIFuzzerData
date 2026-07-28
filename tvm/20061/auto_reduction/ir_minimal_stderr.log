@@ -1,0 +1,55 @@
+=== STDOUT ===
+Module built successfully
+
+=== STDERR ===
+Traceback (most recent call last):
+  File "/root/Code/kotlin/aifuzzer/daemon/tvm_daemon.py", line 72, in run_source
+    exec(source, {"tvm": tvm, "relax": relax, "op": op})
+  File "<string>", line 54, in <module>
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/vm_build.py", line 270, in build
+    mod = relax_pipeline(mod)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/relax/backend/cuda/pipeline.py", line 87, in _pipeline
+    mod = seq(mod)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 171, in __call__
+    return _ffi_transform_api.RunPass(self, mod)
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in TVMFFIPyCallback(void*, TVMFFIAny const*, int, TVMFFIAny*)
+  File "<unknown>", line 0, in TVMFFIPyCallManager::ForwardPyErrorToFFI()
+  File "<unknown>", line 0, in TVMFFICyErrorSetRaisedFromPyError(_object*)
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/ir/transform.py", line 238, in _pass_func
+    return inst.transform_module(mod, ctx)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 70, in transform_module
+    sch = _apply_rules(func, target, self.rules, tunable=False)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/base/transform.py", line 88, in _apply_rules
+    space = rule.apply(func, target, tunable)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/reduction.py", line 107, in apply
+    self._sch_inner_reduction(
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/dlight/gpu/reduction.py", line 197, in _sch_inner_reduction
+    rf = sch.rfactor(tx, 0)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/schedule/_type_checker.py", line 368, in wrap
+    return func(*args, **kwargs)
+    
+  File "/root/miniconda3/lib/python3.12/site-packages/tvm/s_tir/schedule/schedule.py", line 2642, in rfactor
+    return _ffi_api.ScheduleRFactor(self, loop, factor_axis)  # type: ignore
+    
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "<unknown>", line 0, in tvm::s_tir::RFactor(tvm::s_tir::ScheduleState, tvm::tirx::StmtSRef const&, int)
+  File "<unknown>", line 0, in tvm::tirx::StmtMutator::VisitStmt_(tvm::tirx::SBlockNode const*)
+  File "<unknown>", line 0, in tvm::tirx::StmtMutator::VisitStmt(tvm::tirx::Stmt const&)
+  File "/project/src/s_tir/schedule/primitive/reduction.cc", line 1166, in virtual tvm::tirx::Stmt tvm::s_tir::BlockReplacer::VisitStmt_(const tvm::tirx::SBlockRealizeNode*)
+tvm.error.InternalError: Check failed: block_realize == old_block_realize_.get() (0x9a04a00 vs. 0x99fa0f0) : 
