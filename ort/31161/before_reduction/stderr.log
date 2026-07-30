@@ -1,0 +1,20 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: ONNX Runtime (daemon)
+# Seed: 1785284173588
+# Timestamp: 20260729_081621
+# Exit code: 2
+# Elapsed: 3121ms
+# ============================================================
+
+--- STDOUT ---
+
+
+--- STDERR ---
+[0;93m2026-07-29 08:16:19.656255968 [W:onnxruntime:, graph.cc:5457 CleanUnusedInitializersAndNodeArgs] Removing initializer 'v_75_8y9utnms'. It is not used by any node and should be removed from the model.[m
+[0;93m2026-07-29 08:16:19.656946869 [W:onnxruntime:, unsqueeze_elimination.cc:24 Apply] UnsqueezeElimination cannot remove node [m
+[0;93m2026-07-29 08:16:19.660212716 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph graph_1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-07-29 08:16:19.665567773 [W:onnxruntime:, graph.cc:5457 CleanUnusedInitializersAndNodeArgs] Removing initializer 'v_75_8y9utnms'. It is not used by any node and should be removed from the model.[m
+[0;93m2026-07-29 08:16:19.667394767 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph graph_1 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[0;93m2026-07-29 08:16:20.718276514 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 1 Memcpy nodes are added to the graph graph_4 for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+[ONNX-DIFF] graph_0[23]: opt=[0. 0. 0. 0.] ref=[2.1474836e+09 2.1474836e+09 2.1474836e+09 2.1474836e+09]
