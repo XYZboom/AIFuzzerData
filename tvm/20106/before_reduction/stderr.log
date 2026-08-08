@@ -1,0 +1,701 @@
+# ============================================================
+# Bug Report - Auto Collected by aiFuzzer
+# Backend: TVM Relax (daemon)
+# Seed: 20261649
+# Timestamp: 20260808_095843
+# Exit code: 1
+# Elapsed: 3441ms
+# ============================================================
+
+--- STDOUT ---
+Module built successfully
+[TVM-OUT] graph_0[0]: shape=[3, 8, 3]
+[TVM-OUT] graph_0[1]: shape=[6, 7, 1, 2]
+[TVM-OUT] graph_0[2]: shape=[24, 4, 7, 1]
+[TVM-OUT] graph_0[3]: shape=[1, 1, 3, 3]
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "/root/Code/kotlin/aifuzzer/daemon/tvm_daemon.py", line 72, in run_source
+    exec(source, {"tvm": tvm, "relax": relax, "op": op})
+  File "<string>", line 276, in <module>
+  File "python/tvm_ffi/cython/function.pxi", line 968, in tvm_ffi.core.Function.__call__
+  File "/__w/tvm/tvm/src/backend/cuda/runtime/cuda_module.cc", line 305, in void tvm::runtime::CUDAWrappedFunc::operator()(tvm::ffi::PackedArgs, tvm::ffi::Any*, void**) const
+tvm.error.InternalError: CUDALaunch Error: CUDA_ERROR_INVALID_VALUE
+ grid=(1,100800,1),  block=(1024,1,1)
+// func_name=cumprod_kernel
+// CUDA Source
+// -----------
+
+#ifdef __CUDACC_RTC__
+  #include <cuda/std/cstdint>
+  using cuda::std::uint8_t;
+  using cuda::std::uint16_t;
+  using cuda::std::uint32_t;
+  using cuda::std::uint64_t;
+  using cuda::std::int8_t;
+  using cuda::std::int16_t;
+  using cuda::std::int32_t;
+  using cuda::std::int64_t;
+
+  #include <cuda/std/type_traits>
+  namespace std {
+    using cuda::std::is_same;
+    using cuda::std::is_same_v;
+    using cuda::std::is_integral;
+    using cuda::std::is_signed;
+    using cuda::std::is_unsigned;
+    using cuda::std::is_floating_point;
+    using cuda::std::enable_if;
+    using cuda::std::conditional;
+  }
+
+  // NVRTC uses asm/volatile instead of __asm__/__volatile__ (gcc extension).
+  #ifndef __asm__
+  #define __asm__ asm
+  #endif
+  #ifndef __volatile__
+  #define __volatile__ volatile
+  #endif
+#else
+  #include <cstdint>
+  #include <type_traits>
+  #include <cuda.h>
+#endif
+
+#if defined(__CUDA_ARCH__) && (__CUDA_ARCH__ < 700)
+#define __shfl_sync(mask, var, lane, width) \
+        __shfl((var), (lane), (width))
+
+#define __shfl_down_sync(mask, var, offset, width) \
+        __shfl_down((var), (offset), (width))
+
+#define __shfl_up_sync(mask, var, offset, width) \
+        __shfl_up((var), (offset), (width))
+#endif
+
+#if (((__CUDACC_VER_MAJOR__ == 11) && (__CUDACC_VER_MINOR__ >= 4)) || \
+     (__CUDACC_VER_MAJOR__ > 11))
+#define TVM_ENABLE_L2_PREFETCH 1
+#else
+#define TVM_ENABLE_L2_PREFETCH 0
+#endif
+
+#ifdef _WIN32
+  using uint = unsigned int;
+  using uchar = unsigned char;
+  using ushort = unsigned short;
+  using int64_t = long long;
+  using uint64_t = unsigned long long;
+#else
+  #define uint unsigned int
+  #define uchar unsigned char
+  #define ushort unsigned short
+#endif
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel(float* __restrict__ gv30, float* __restrict__ output_buf);
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_1(int* __restrict__ v, int* __restrict__ v_1, int* __restrict__ v_2, float* __restrict__ output_buf, int64_t v_3);
+extern "C" __global__ void cumprod_kernel_2(float* __restrict__ output_buf);
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_3(int* __restrict__ v, int* __restrict__ v_1, int* __restrict__ v_2, float* __restrict__ v_3, float* __restrict__ output_buf, int64_t v_4);
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_4(float* __restrict__ T_multiply, float* __restrict__ gv30, float* __restrict__ output_buf);
+extern "C" __global__ void __launch_bounds__(1024) add_kernel(float* __restrict__ T_add, float* __restrict__ gv26, float* __restrict__ gv27);
+extern "C" __global__ void __launch_bounds__(256) argmax_kernel(float* __restrict__ gv48, int64_t* __restrict__ gv48_red);
+extern "C" __global__ void __launch_bounds__(1024) argmax1_kernel(float* __restrict__ gv63, int64_t* __restrict__ gv63_red_temp_v0, float* __restrict__ gv63_red_temp_v1);
+extern "C" __global__ void __launch_bounds__(1024) argmax1_kernel_1(int64_t* __restrict__ gv63_red, int64_t* __restrict__ gv63_red_temp_v0);
+extern "C" __global__ void __launch_bounds__(1024) avg_pool2d_kernel(float* __restrict__ gv14, float* __restrict__ pool_avg);
+extern "C" __global__ void __launch_bounds__(1024) cast_kernel(float* __restrict__ compute, float* __restrict__ v_1_w35jct7h);
+extern "C" __global__ void __launch_bounds__(1024) cast2_kernel(float* __restrict__ compute, float* __restrict__ v_6_ztn1x0d5);
+extern "C" __global__ void __launch_bounds__(1024) cast3_kernel(float* __restrict__ compute, float* __restrict__ v_16_y4tubzx5);
+extern "C" __global__ void __launch_bounds__(1024) cast5_kernel(float* __restrict__ compute, float* __restrict__ v_11_cwd76xq1);
+extern "C" __global__ void __launch_bounds__(1024) cast6_kernel(float* __restrict__ compute, int64_t* __restrict__ gv51);
+extern "C" __global__ void __launch_bounds__(1024) cast7_kernel(float* __restrict__ compute, int64_t* __restrict__ gv64);
+extern "C" __global__ void __launch_bounds__(1024) conv2d_kernel(float* __restrict__ conv2d_nchw, float* __restrict__ gv11, float* __restrict__ gv13);
+extern "C" __global__ void __launch_bounds__(1024) conv2d1_kernel(float* __restrict__ conv2d_nchw, float* __restrict__ gv18, float* __restrict__ gv19);
+extern "C" __global__ void __launch_bounds__(1024) divide1_kernel(float* __restrict__ T_divide, float* __restrict__ gv59);
+extern "C" __global__ void __launch_bounds__(1024) expand_dims_kernel(float* __restrict__ expand_dims, float* __restrict__ gv9);
+extern "C" __global__ void __launch_bounds__(1024) expand_dims1_kernel(float* __restrict__ expand_dims, float* __restrict__ gv10);
+extern "C" __global__ void __launch_bounds__(1024) expand_dims2_kernel(float* __restrict__ expand_dims, float* __restrict__ gv17);
+extern "C" __global__ void __launch_bounds__(1024) gelu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv61);
+extern "C" __global__ void __launch_bounds__(1024) greater_equal_kernel(signed char* __restrict__ T_greater_equal, float* __restrict__ gv50);
+extern "C" __global__ void __launch_bounds__(2) mean_kernel(float* __restrict__ T_divide, float* __restrict__ gv60);
+extern "C" __global__ void __launch_bounds__(2) mean1_kernel(float* __restrict__ T_divide, float* __restrict__ gv62);
+extern "C" __global__ void __launch_bounds__(1024) min_kernel(float* __restrict__ v_3_y3gm1rr5, float* __restrict__ v_3_y3gm1rr5_red);
+extern "C" __global__ void __launch_bounds__(1024) minimum_kernel(float* __restrict__ T_minimum, float* __restrict__ gv36, float* __restrict__ gv37);
+extern "C" __global__ void __launch_bounds__(1024) minimum1_kernel(float* __restrict__ T_minimum, float* __restrict__ gv46, float* __restrict__ gv47);
+extern "C" __global__ void __launch_bounds__(1024) multiply_kernel(float* __restrict__ T_multiply, float* __restrict__ gv55);
+extern "C" __global__ void __launch_bounds__(1024) power_kernel(float* __restrict__ T_power, float* __restrict__ gv6, float* __restrict__ gv7);
+extern "C" __global__ void __launch_bounds__(1024) relu_kernel(float* __restrict__ compute, float* __restrict__ gv15);
+extern "C" __global__ void __launch_bounds__(1024) reshape_kernel(float* __restrict__ T_reshape, float* __restrict__ gv1);
+extern "C" __global__ void __launch_bounds__(1024) reshape1_kernel(float* __restrict__ T_reshape, float* __restrict__ v_2_83tsnspu);
+extern "C" __global__ void __launch_bounds__(1024) reshape2_kernel(float* __restrict__ T_reshape, float* __restrict__ gv4);
+extern "C" __global__ void __launch_bounds__(1024) reshape3_kernel(float* __restrict__ T_reshape, float* __restrict__ v_23_2l7qjxh0);
+extern "C" __global__ void __launch_bounds__(1024) reshape4_kernel(float* __restrict__ T_reshape, float* __restrict__ gv34);
+extern "C" __global__ void __launch_bounds__(1024) reshape5_kernel(float* __restrict__ T_reshape, float* __restrict__ v_4_7e3dqaqw);
+extern "C" __global__ void __launch_bounds__(1024) reshape6_kernel(float* __restrict__ T_reshape, float* __restrict__ gv44);
+extern "C" __global__ void __launch_bounds__(1024) resize2d_kernel(float* __restrict__ resize, float* __restrict__ v_6_ztn1x0d5);
+extern "C" __global__ void __launch_bounds__(1024) resize2d1_kernel(float* __restrict__ gv28, float* __restrict__ resize);
+extern "C" __global__ void __launch_bounds__(1024) selu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv24);
+extern "C" __global__ void __launch_bounds__(1024) silu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv20);
+extern "C" __global__ void __launch_bounds__(1024) strided_slice_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv3);
+extern "C" __global__ void __launch_bounds__(1024) strided_slice1_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv33);
+extern "C" __global__ void __launch_bounds__(1024) strided_slice2_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv43);
+extern "C" __global__ void __launch_bounds__(1024) subtract_kernel(float* __restrict__ T_subtract, float* __restrict__ gv54);
+extern "C" __global__ void __launch_bounds__(1024) tir_abs_kernel(float* __restrict__ compute, float* __restrict__ v_24_2wuqvra2);
+extern "C" __global__ void __launch_bounds__(1024) tir_clip_kernel(float* __restrict__ compute, float* __restrict__ gv8);
+extern "C" __global__ void __launch_bounds__(1024) tir_exp_kernel(float* __restrict__ compute, float* __restrict__ gv50);
+extern "C" __global__ void __launch_bounds__(1024) tir_log1_kernel(float* __restrict__ compute, float* __restrict__ gv49);
+extern "C" __global__ void __launch_bounds__(1024) tir_negative_kernel(float* __restrict__ compute, float* __restrict__ v_3_y3gm1rr5);
+extern "C" __global__ void __launch_bounds__(1024) tir_negative1_kernel(float* __restrict__ compute, float* __restrict__ gv65);
+extern "C" __global__ void __launch_bounds__(1024) tir_round_kernel(float* __restrict__ compute, float* __restrict__ v_12_8osve105);
+extern "C" __global__ void __launch_bounds__(1024) where_kernel(float* __restrict__ T_where, float* __restrict__ gv50, signed char* __restrict__ gv53, float* __restrict__ gv56);
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel(float* __restrict__ gv30, float* __restrict__ output_buf) {
+  if (((int)threadIdx.x) < 4) {
+    output_buf[((((int)blockIdx.y) * 4) + ((int)threadIdx.x))] = gv30[(((((((int)blockIdx.y) / 4200) * 16800) + (((int)threadIdx.x) * 4200)) + ((((int)blockIdx.y) % 14) * 300)) + ((((int)blockIdx.y) % 4200) / 14))];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_1(int* __restrict__ v, int* __restrict__ v_1, int* __restrict__ v_2, float* __restrict__ output_buf, int64_t v_3) {
+  v[0] = ((int)(((int64_t)2 << v_3) * ((((int64_t)((int)blockIdx.x)) * (int64_t)1024) + ((int64_t)((int)threadIdx.x)))));
+  if (v[0] < 4) {
+    v_1[0] = ((((int)((int64_t)2 << v_3)) >> 1) + v[0]);
+    v_2[0] = ((int)min((((int64_t)v[0]) + ((int64_t)2 << v_3)), (int64_t)4));
+    if (v_1[0] < 4) {
+      int64_t cse_v1 = (((int64_t)blockIdx.y) * (int64_t)4);
+      output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_2[0])) - (int64_t)1)] = (output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_2[0])) - (int64_t)1)] * output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_1[0])) - (int64_t)1)]);
+    }
+  }
+}
+
+extern "C" __global__ void cumprod_kernel_2(float* __restrict__ output_buf) {
+  output_buf[((((int)blockIdx.x) * 4) + 3)] = 0x1p+0f/*1.000000e+00*/;
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_3(int* __restrict__ v, int* __restrict__ v_1, int* __restrict__ v_2, float* __restrict__ v_3, float* __restrict__ output_buf, int64_t v_4) {
+  int64_t cse_v2 = ((int64_t)1 - v_4);
+  v[0] = ((int)(((int64_t)2 << ((int64_t)1 - v_4)) * ((((int64_t)((int)blockIdx.x)) * (int64_t)1024) + ((int64_t)((int)threadIdx.x)))));
+  if (v[0] < 4) {
+    v_1[0] = ((((int)((int64_t)2 << ((int64_t)1 - v_4))) >> 1) + v[0]);
+    v_2[0] = ((int)min((((int64_t)v[0]) + ((int64_t)2 << ((int64_t)1 - v_4))), (int64_t)4));
+    if (v_1[0] < 4) {
+      int64_t cse_v3 = (((int64_t)blockIdx.y) * (int64_t)4);
+      v_3[0] = output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_1[0])) - (int64_t)1)];
+      output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_1[0])) - (int64_t)1)] = output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_2[0])) - (int64_t)1)];
+      output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_2[0])) - (int64_t)1)] = (output_buf[(((((int64_t)blockIdx.y) * (int64_t)4) + ((int64_t)v_2[0])) - (int64_t)1)] * v_3[0]);
+    }
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cumprod_kernel_4(float* __restrict__ T_multiply, float* __restrict__ gv30, float* __restrict__ output_buf) {
+  if (((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 8)) < 1575) {
+    int cse_v4 = ((((int)blockIdx.x) * 1024) + ((int)threadIdx.x));
+    T_multiply[((((int)blockIdx.x) * 1024) + ((int)threadIdx.x))] = (gv30[((((int)blockIdx.x) * 1024) + ((int)threadIdx.x))] * output_buf[(((((((((int)blockIdx.x) * 32) + (((int)threadIdx.x) >> 5)) / 525) * 16800) + ((((((int)blockIdx.x) * 124) + ((int)threadIdx.x)) % 300) * 56)) + (((((((int)blockIdx.x) * 256) + (((int)threadIdx.x) >> 2)) % 1050) / 75) * 4)) + ((((((int)blockIdx.x) * 128) + (((int)threadIdx.x) >> 3)) % 2100) / 525))]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) add_kernel(float* __restrict__ T_add, float* __restrict__ gv26, float* __restrict__ gv27) {
+  if (((((int)blockIdx.x) * 16) + (((int)threadIdx.x) >> 6)) < 1575) {
+    T_add[((((int)blockIdx.x) * 1024) + ((int)threadIdx.x))] = (gv26[(((((int)blockIdx.x) * 124) + ((int)threadIdx.x)) % 150)] + gv27[(((((int)blockIdx.x) * 512) + (((int)threadIdx.x) >> 1)) / 75)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(256) argmax_kernel(float* __restrict__ gv48, int64_t* __restrict__ gv48_red) {
+  alignas(64) int64_t in_thread_gv48_red_temp_v0_shared[1];
+  alignas(64) float in_thread_gv48_red_temp_v1_shared[1];
+  __shared__ alignas(64) int64_t red_result[1];
+  __shared__ alignas(64) float red_result_1[1];
+  __shared__ alignas(64) int64_t gv48_red_temp_v0_shared[1];
+  __shared__ alignas(64) float gv48_red_temp_v1_shared[1];
+  in_thread_gv48_red_temp_v0_shared[0] = (int64_t)-1;
+  in_thread_gv48_red_temp_v1_shared[0] = -0x1.fffffep+127f/*-3.402823e+38*/;
+  if (((int64_t)threadIdx.x) < (int64_t)3) {
+    int64_t cse_v1 = ((((int64_t)((int)blockIdx.x)) * (int64_t)3) + ((int64_t)threadIdx.x));
+    int64_t condval;
+    if (((gv48[((((int64_t)((int)blockIdx.x)) * (int64_t)3) + ((int64_t)threadIdx.x))] < in_thread_gv48_red_temp_v1_shared[0]) || ((in_thread_gv48_red_temp_v1_shared[0] == gv48[((((int64_t)((int)blockIdx.x)) * (int64_t)3) + ((int64_t)threadIdx.x))]) && (in_thread_gv48_red_temp_v0_shared[0] < ((int64_t)threadIdx.x))))) {
+      condval = in_thread_gv48_red_temp_v0_shared[0];
+    } else {
+      condval = ((int64_t)threadIdx.x);
+    }
+    int64_t v_gv48_red_temp_v0 = condval;
+    float condval_1;
+    if ((gv48[((((int64_t)((int)blockIdx.x)) * (int64_t)3) + ((int64_t)threadIdx.x))] < in_thread_gv48_red_temp_v1_shared[0])) {
+      condval_1 = in_thread_gv48_red_temp_v1_shared[0];
+    } else {
+      condval_1 = gv48[((((int64_t)((int)blockIdx.x)) * (int64_t)3) + ((int64_t)threadIdx.x))];
+    }
+    float v_gv48_red_temp_v1 = condval_1;
+    in_thread_gv48_red_temp_v0_shared[0] = v_gv48_red_temp_v0;
+    in_thread_gv48_red_temp_v1_shared[0] = v_gv48_red_temp_v1;
+  }
+  __shared__ alignas(64) int64_t red_buf_staging[8];
+  __shared__ alignas(64) float red_buf_staging_1[8];
+  alignas(64) int64_t t0[1];
+  alignas(64) float t1[1];
+  alignas(64) uint mask[1];
+  alignas(64) int64_t red_buf0[1];
+  alignas(64) float red_buf1[1];
+  alignas(64) int64_t t0_1[1];
+  alignas(64) float t1_1[1];
+  alignas(64) uint mask_1[1];
+  alignas(64) int64_t red_buf0_1[1];
+  alignas(64) float red_buf1_1[1];
+  red_buf0[0] = in_thread_gv48_red_temp_v0_shared[0];
+  red_buf1[0] = in_thread_gv48_red_temp_v1_shared[0];
+  mask[0] = __activemask();
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 16, 32);
+  t1[0] = __shfl_down_sync(mask[0], red_buf1[0], 16, 32);
+  red_buf0[0] = (((t1[0] < red_buf1[0]) || ((red_buf1[0] == t1[0]) && (red_buf0[0] < t0[0]))) ? red_buf0[0] : t0[0]);
+  red_buf1[0] = ((t1[0] < red_buf1[0]) ? red_buf1[0] : t1[0]);
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 8, 32);
+  t1[0] = __shfl_down_sync(mask[0], red_buf1[0], 8, 32);
+  red_buf0[0] = (((t1[0] < red_buf1[0]) || ((red_buf1[0] == t1[0]) && (red_buf0[0] < t0[0]))) ? red_buf0[0] : t0[0]);
+  red_buf1[0] = ((t1[0] < red_buf1[0]) ? red_buf1[0] : t1[0]);
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 4, 32);
+  t1[0] = __shfl_down_sync(mask[0], red_buf1[0], 4, 32);
+  red_buf0[0] = (((t1[0] < red_buf1[0]) || ((red_buf1[0] == t1[0]) && (red_buf0[0] < t0[0]))) ? red_buf0[0] : t0[0]);
+  red_buf1[0] = ((t1[0] < red_buf1[0]) ? red_buf1[0] : t1[0]);
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 2, 32);
+  t1[0] = __shfl_down_sync(mask[0], red_buf1[0], 2, 32);
+  red_buf0[0] = (((t1[0] < red_buf1[0]) || ((red_buf1[0] == t1[0]) && (red_buf0[0] < t0[0]))) ? red_buf0[0] : t0[0]);
+  red_buf1[0] = ((t1[0] < red_buf1[0]) ? red_buf1[0] : t1[0]);
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 1, 32);
+  t1[0] = __shfl_down_sync(mask[0], red_buf1[0], 1, 32);
+  red_buf0[0] = (((t1[0] < red_buf1[0]) || ((red_buf1[0] == t1[0]) && (red_buf0[0] < t0[0]))) ? red_buf0[0] : t0[0]);
+  red_buf1[0] = ((t1[0] < red_buf1[0]) ? red_buf1[0] : t1[0]);
+  if ((((int64_t)threadIdx.x) % (int64_t)32) == (int64_t)0) {
+    red_buf_staging[(((int64_t)threadIdx.x) >> (int64_t)5)] = red_buf0[0];
+    red_buf_staging_1[(((int64_t)threadIdx.x) >> (int64_t)5)] = red_buf1[0];
+  }
+  __syncthreads();
+  if (((int64_t)threadIdx.x) < (int64_t)8) {
+    red_buf0_1[0] = red_buf_staging[((int64_t)threadIdx.x)];
+    red_buf1_1[0] = red_buf_staging_1[((int64_t)threadIdx.x)];
+  }
+  mask_1[0] = __activemask();
+  t0_1[0] = __shfl_down_sync(mask_1[0], red_buf0_1[0], 4, 32);
+  t1_1[0] = __shfl_down_sync(mask_1[0], red_buf1_1[0], 4, 32);
+  red_buf0_1[0] = (((t1_1[0] < red_buf1_1[0]) || ((red_buf1_1[0] == t1_1[0]) && (red_buf0_1[0] < t0_1[0]))) ? red_buf0_1[0] : t0_1[0]);
+  red_buf1_1[0] = ((t1_1[0] < red_buf1_1[0]) ? red_buf1_1[0] : t1_1[0]);
+  t0_1[0] = __shfl_down_sync(mask_1[0], red_buf0_1[0], 2, 32);
+  t1_1[0] = __shfl_down_sync(mask_1[0], red_buf1_1[0], 2, 32);
+  red_buf0_1[0] = (((t1_1[0] < red_buf1_1[0]) || ((red_buf1_1[0] == t1_1[0]) && (red_buf0_1[0] < t0_1[0]))) ? red_buf0_1[0] : t0_1[0]);
+  red_buf1_1[0] = ((t1_1[0] < red_buf1_1[0]) ? red_buf1_1[0] : t1_1[0]);
+  t0_1[0] = __shfl_down_sync(mask_1[0], red_buf0_1[0], 1, 32);
+  t1_1[0] = __shfl_down_sync(mask_1[0], red_buf1_1[0], 1, 32);
+  red_buf0_1[0] = (((t1_1[0] < red_buf1_1[0]) || ((red_buf1_1[0] == t1_1[0]) && (red_buf0_1[0] < t0_1[0]))) ? red_buf0_1[0] : t0_1[0]);
+  red_buf1_1[0] = ((t1_1[0] < red_buf1_1[0]) ? red_buf1_1[0] : t1_1[0]);
+  if (((int64_t)threadIdx.x) == (int64_t)0) {
+    ((volatile int64_t*)red_result)[0] = red_buf0_1[0];
+    ((volatile float*)red_result_1)[0] = red_buf1_1[0];
+  }
+  __syncthreads();
+  if (((int64_t)threadIdx.x) == (int64_t)0) {
+    gv48_red_temp_v0_shared[0] = ((volatile int64_t*)red_result)[0];
+    gv48_red_temp_v1_shared[0] = ((volatile float*)red_result_1)[0];
+  }
+  __syncthreads();
+  if (((int64_t)threadIdx.x) < (int64_t)1) {
+    gv48_red[((int)blockIdx.x)] = gv48_red_temp_v0_shared[0];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) argmax1_kernel(float* __restrict__ gv63, int64_t* __restrict__ gv63_red_temp_v0, float* __restrict__ gv63_red_temp_v1) {
+  if (((int)threadIdx.x) < 1) {
+    gv63_red_temp_v0[0] = (int64_t)-1;
+    gv63_red_temp_v1[0] = -0x1.fffffep+127f/*-3.402823e+38*/;
+    int64_t condval;
+    if (((gv63[0] < gv63_red_temp_v1[0]) || ((gv63_red_temp_v1[0] == gv63[0]) && (gv63_red_temp_v0[0] < (int64_t)0)))) {
+      condval = gv63_red_temp_v0[0];
+    } else {
+      condval = (int64_t)0;
+    }
+    int64_t v_gv63_red_temp_v0 = condval;
+    float condval_1;
+    if ((gv63[0] < gv63_red_temp_v1[0])) {
+      condval_1 = gv63_red_temp_v1[0];
+    } else {
+      condval_1 = gv63[0];
+    }
+    float v_gv63_red_temp_v1 = condval_1;
+    gv63_red_temp_v0[0] = v_gv63_red_temp_v0;
+    gv63_red_temp_v1[0] = v_gv63_red_temp_v1;
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) argmax1_kernel_1(int64_t* __restrict__ gv63_red, int64_t* __restrict__ gv63_red_temp_v0) {
+  if (((int)threadIdx.x) < 1) {
+    gv63_red[0] = gv63_red_temp_v0[0];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) avg_pool2d_kernel(float* __restrict__ gv14, float* __restrict__ pool_avg) {
+  if (((int)threadIdx.x) < 9) {
+    pool_avg[((int)threadIdx.x)] = 0x0p+0f/*0.000000e+00*/;
+    pool_avg[((int)threadIdx.x)] = (pool_avg[((int)threadIdx.x)] + gv14[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast_kernel(float* __restrict__ compute, float* __restrict__ v_1_w35jct7h) {
+  if (((int)threadIdx.x) < 16) {
+    compute[((int)threadIdx.x)] = v_1_w35jct7h[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast2_kernel(float* __restrict__ compute, float* __restrict__ v_6_ztn1x0d5) {
+  if (((int)threadIdx.x) < 672) {
+    compute[((int)threadIdx.x)] = v_6_ztn1x0d5[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast3_kernel(float* __restrict__ compute, float* __restrict__ v_16_y4tubzx5) {
+  if (((int)threadIdx.x) < 146) {
+    compute[((int)threadIdx.x)] = v_16_y4tubzx5[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast5_kernel(float* __restrict__ compute, float* __restrict__ v_11_cwd76xq1) {
+  if (((int)threadIdx.x) < 9) {
+    compute[((int)threadIdx.x)] = v_11_cwd76xq1[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast6_kernel(float* __restrict__ compute, int64_t* __restrict__ gv51) {
+  if (((int)threadIdx.x) < 3) {
+    compute[((int)threadIdx.x)] = ((float)gv51[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) cast7_kernel(float* __restrict__ compute, int64_t* __restrict__ gv64) {
+  if (((int)threadIdx.x) < 1) {
+    compute[0] = ((float)gv64[0]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) conv2d_kernel(float* __restrict__ conv2d_nchw, float* __restrict__ gv11, float* __restrict__ gv13) {
+  if (((int)threadIdx.x) < 9) {
+    conv2d_nchw[((int)threadIdx.x)] = 0x0p+0f/*0.000000e+00*/;
+  }
+  for (int ax2 = 0; ax2 < 4; ++ax2) {
+    for (int ax3 = 0; ax3 < 4; ++ax3) {
+      if (((int)threadIdx.x) < 9) {
+        int cse_v1 = (((int)threadIdx.x) / 3);
+        int cse_v2 = (((int)threadIdx.x) % 3);
+        int cse_v3 = (ax2 * 4);
+        int cse_v4 = ((((int)threadIdx.x) / 3) + (ax2 >> 1));
+        int cse_v5 = ((ax3 >> 1) + (((int)threadIdx.x) % 3));
+        float condval;
+        if (((((1 <= ((((int)threadIdx.x) / 3) + (ax2 >> 1))) && (((((int)threadIdx.x) / 3) + (ax2 >> 1)) < 3)) && (1 <= ((ax3 >> 1) + (((int)threadIdx.x) % 3)))) && (((ax3 >> 1) + (((int)threadIdx.x) % 3)) < 3))) {
+          condval = gv11[((((((((int)threadIdx.x) / 3) * 8) + (ax2 * 4)) + ((((int)threadIdx.x) % 3) * 2)) + ax3) - 10)];
+        } else {
+          condval = 0x0p+0f/*0.000000e+00*/;
+        }
+        conv2d_nchw[((int)threadIdx.x)] = (conv2d_nchw[((int)threadIdx.x)] + (condval * gv13[((ax2 * 4) + ax3)]));
+      }
+    }
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) conv2d1_kernel(float* __restrict__ conv2d_nchw, float* __restrict__ gv18, float* __restrict__ gv19) {
+  if (((int)threadIdx.x) < 4) {
+    conv2d_nchw[((int)threadIdx.x)] = 0x0p+0f/*0.000000e+00*/;
+  }
+  for (int ax2 = 0; ax2 < 7; ++ax2) {
+    for (int ax3 = 0; ax3 < 4; ++ax3) {
+      for (int ax4 = 0; ax4 < 6; ++ax4) {
+        if (((int)threadIdx.x) < 4) {
+          int cse_v1 = (((int)threadIdx.x) >> 1);
+          int cse_v2 = (ax2 * 24);
+          int cse_v3 = (ax3 * 6);
+          int cse_v4 = ((((int)threadIdx.x) & 1) * 3);
+          int cse_v5 = (((((int)threadIdx.x) & 1) * 3) + ax4);
+          float condval;
+          if (((((2 <= (((((int)threadIdx.x) >> 1) * 3) + ax3)) && (((ax3 / 3) + (((int)threadIdx.x) >> 1)) < 2)) && (2 <= (((((int)threadIdx.x) & 1) * 3) + ax4))) && ((((((int)threadIdx.x) & 1) * 3) + ax4) < 8))) {
+            condval = gv18[((((((ax2 * 24) + ((((int)threadIdx.x) >> 1) * 18)) + (ax3 * 6)) + ((((int)threadIdx.x) & 1) * 3)) + ax4) - 14)];
+          } else {
+            condval = 0x0p+0f/*0.000000e+00*/;
+          }
+          conv2d_nchw[((int)threadIdx.x)] = (conv2d_nchw[((int)threadIdx.x)] + (condval * gv19[(((ax2 * 24) + (ax3 * 6)) + ax4)]));
+        }
+      }
+    }
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) divide1_kernel(float* __restrict__ T_divide, float* __restrict__ gv59) {
+  if (((int)threadIdx.x) < 9) {
+    T_divide[((int)threadIdx.x)] = (gv59[((int)threadIdx.x)] / 0x1.62e43p-1f/*6.931472e-01*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) expand_dims_kernel(float* __restrict__ expand_dims, float* __restrict__ gv9) {
+  if (((int)threadIdx.x) < 16) {
+    expand_dims[((int)threadIdx.x)] = gv9[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) expand_dims1_kernel(float* __restrict__ expand_dims, float* __restrict__ gv10) {
+  if (((int)threadIdx.x) < 16) {
+    expand_dims[((int)threadIdx.x)] = gv10[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) expand_dims2_kernel(float* __restrict__ expand_dims, float* __restrict__ gv17) {
+  if (((int)threadIdx.x) < 168) {
+    expand_dims[((int)threadIdx.x)] = gv17[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) gelu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv61) {
+  if (((int)threadIdx.x) < 3) {
+    T_multiply[((int)threadIdx.x)] = (gv61[((int)threadIdx.x)] * (0x1p-1f/*5.000000e-01*/ + (erff((gv61[((int)threadIdx.x)] * 0x1.6a09e667f3bcdp-1f/*7.071068e-01*/)) * 0x1p-1f/*5.000000e-01*/)));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) greater_equal_kernel(signed char* __restrict__ T_greater_equal, float* __restrict__ gv50) {
+  if (((int)threadIdx.x) < 9) {
+    T_greater_equal[((int)threadIdx.x)] = ((signed char)(0x0p+0f/*0.000000e+00*/ <= gv50[((int)threadIdx.x)]));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(2) mean_kernel(float* __restrict__ T_divide, float* __restrict__ gv60) {
+  alignas(64) float gv60_red_rf_local[1];
+  alignas(64) float red_buf0[1];
+  gv60_red_rf_local[0] = 0x0p+0f/*0.000000e+00*/;
+  int cse_v1 = ((((int)blockIdx.x) * 3) + ((int)threadIdx.x));
+  gv60_red_rf_local[0] = (gv60_red_rf_local[0] + gv60[((((int)blockIdx.x) * 3) + ((int)threadIdx.x))]);
+  if (((int)threadIdx.x) < 1) {
+    gv60_red_rf_local[0] = (gv60_red_rf_local[0] + gv60[(((((int)blockIdx.x) * 3) + ((int)threadIdx.x)) + 2)]);
+  }
+  alignas(64) float t0[1];
+  alignas(64) uint mask[1];
+  red_buf0[0] = gv60_red_rf_local[0];
+  mask[0] = __activemask();
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 1, 32);
+  red_buf0[0] = (red_buf0[0] + t0[0]);
+  red_buf0[0] = __shfl_sync(mask[0], red_buf0[0], 0, 32);
+  if (((int)threadIdx.x) == 0) {
+    T_divide[((int)blockIdx.x)] = (red_buf0[0] / 0x1.8p+1f/*3.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(2) mean1_kernel(float* __restrict__ T_divide, float* __restrict__ gv62) {
+  alignas(64) float gv62_red_rf_local[1];
+  alignas(64) float red_buf0[1];
+  __shared__ alignas(64) float gv62_red_shared[1];
+  gv62_red_rf_local[0] = 0x0p+0f/*0.000000e+00*/;
+  gv62_red_rf_local[0] = (gv62_red_rf_local[0] + gv62[((int)threadIdx.x)]);
+  if (((int)threadIdx.x) < 1) {
+    gv62_red_rf_local[0] = (gv62_red_rf_local[0] + gv62[(((int)threadIdx.x) + 2)]);
+  }
+  alignas(64) float t0[1];
+  alignas(64) uint mask[1];
+  red_buf0[0] = gv62_red_rf_local[0];
+  mask[0] = __activemask();
+  t0[0] = __shfl_down_sync(mask[0], red_buf0[0], 1, 32);
+  red_buf0[0] = (red_buf0[0] + t0[0]);
+  red_buf0[0] = __shfl_sync(mask[0], red_buf0[0], 0, 32);
+  if (((int)threadIdx.x) == 0) {
+    gv62_red_shared[0] = red_buf0[0];
+  }
+  __syncthreads();
+  if (((int)threadIdx.x) < 1) {
+    T_divide[0] = (gv62_red_shared[0] / 0x1.8p+1f/*3.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) min_kernel(float* __restrict__ v_3_y3gm1rr5, float* __restrict__ v_3_y3gm1rr5_red) {
+  if (((int)threadIdx.x) < 84) {
+    v_3_y3gm1rr5_red[((int)threadIdx.x)] = 0x1.fffffep+127f/*3.402823e+38*/;
+  }
+  for (int ax3 = 0; ax3 < 8; ++ax3) {
+    if (((int)threadIdx.x) < 84) {
+      v_3_y3gm1rr5_red[((int)threadIdx.x)] = min(v_3_y3gm1rr5_red[((int)threadIdx.x)], v_3_y3gm1rr5[((((((int)threadIdx.x) >> 1) * 16) + (ax3 * 2)) + (((int)threadIdx.x) & 1))]);
+    }
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) minimum_kernel(float* __restrict__ T_minimum, float* __restrict__ gv36, float* __restrict__ gv37) {
+  if (((int)threadIdx.x) < 146) {
+    T_minimum[((int)threadIdx.x)] = min(gv36[((int)threadIdx.x)], gv37[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) minimum1_kernel(float* __restrict__ T_minimum, float* __restrict__ gv46, float* __restrict__ gv47) {
+  if (((int)threadIdx.x) < 9) {
+    T_minimum[((int)threadIdx.x)] = min(gv46[((int)threadIdx.x)], gv47[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) multiply_kernel(float* __restrict__ T_multiply, float* __restrict__ gv55) {
+  if (((int)threadIdx.x) < 9) {
+    T_multiply[((int)threadIdx.x)] = (0x1.a66666p+0f/*1.650000e+00*/ * gv55[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) power_kernel(float* __restrict__ T_power, float* __restrict__ gv6, float* __restrict__ gv7) {
+  if (((int)threadIdx.x) < 16) {
+    T_power[((int)threadIdx.x)] = powf(gv6[((int)threadIdx.x)], gv7[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) relu_kernel(float* __restrict__ compute, float* __restrict__ gv15) {
+  if (((int)threadIdx.x) < 9) {
+    compute[((int)threadIdx.x)] = max(gv15[((int)threadIdx.x)], 0x0p+0f/*0.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape_kernel(float* __restrict__ T_reshape, float* __restrict__ gv1) {
+  if (((int)threadIdx.x) < 672) {
+    T_reshape[((int)threadIdx.x)] = gv1[((((((int)threadIdx.x) >> 4) * 16) + (((((((int)threadIdx.x) / 28) * 6) + ((((int)threadIdx.x) % 28) >> 1)) & 7) * 2)) + (((int)threadIdx.x) & 1))];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape1_kernel(float* __restrict__ T_reshape, float* __restrict__ v_2_83tsnspu) {
+  if (((int)threadIdx.x) < 840) {
+    T_reshape[((int)threadIdx.x)] = v_2_83tsnspu[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape2_kernel(float* __restrict__ T_reshape, float* __restrict__ gv4) {
+  if (((int)threadIdx.x) < 16) {
+    T_reshape[((int)threadIdx.x)] = gv4[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape3_kernel(float* __restrict__ T_reshape, float* __restrict__ v_23_2l7qjxh0) {
+  if (((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 8)) < 1575) {
+    int cse_v1 = ((((int)blockIdx.x) * 1024) + ((int)threadIdx.x));
+    T_reshape[((((int)blockIdx.x) * 1024) + ((int)threadIdx.x))] = v_23_2l7qjxh0[((((int)blockIdx.x) * 1024) + ((int)threadIdx.x))];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape4_kernel(float* __restrict__ T_reshape, float* __restrict__ gv34) {
+  if (((int)threadIdx.x) < 146) {
+    T_reshape[((int)threadIdx.x)] = gv34[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape5_kernel(float* __restrict__ T_reshape, float* __restrict__ v_4_7e3dqaqw) {
+  if (((int)threadIdx.x) < 84) {
+    T_reshape[((int)threadIdx.x)] = v_4_7e3dqaqw[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) reshape6_kernel(float* __restrict__ T_reshape, float* __restrict__ gv44) {
+  if (((int)threadIdx.x) < 9) {
+    T_reshape[((int)threadIdx.x)] = gv44[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) resize2d_kernel(float* __restrict__ resize, float* __restrict__ v_6_ztn1x0d5) {
+  int64_t cse_v1 = (((int64_t)blockIdx.x) * (int64_t)8);
+  if (((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)7)) < (int64_t)21) {
+    int64_t cse_v2 = (((int64_t)threadIdx.x) & (int64_t)1);
+    int64_t cse_v3 = (((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7);
+    int64_t cse_v4 = (((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14);
+    int64_t cse_v5 = ((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7);
+    float cse_v6 = (((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/);
+    int64_t cse_v7 = (((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)28) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)7));
+    float cse_v8 = (((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/);
+    resize[(((((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)112) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)28)) + ((((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14) * (int64_t)2)) + (((int64_t)threadIdx.x) & (int64_t)1))] = ((((v_6_ztn1x0d5[((((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)28) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)7)) + max(min(((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)6), (int64_t)0))] * (0x1p+0f/*1.000000e+00*/ - ((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (v_6_ztn1x0d5[((((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)28) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)7)) + max(min(((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)6), (int64_t)0))] * ((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) * (0x1p+0f/*1.000000e+00*/ - ((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (((v_6_ztn1x0d5[((((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)28) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)7)) + max(min((((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)6), (int64_t)0))] * (0x1p+0f/*1.000000e+00*/ - ((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (v_6_ztn1x0d5[((((((((int64_t)blockIdx.x) * (int64_t)64) + (((int64_t)threadIdx.x) >> (int64_t)4)) / (int64_t)7) * (int64_t)28) + (((((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)28) / (int64_t)7) * (int64_t)7)) + max(min((((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)6), (int64_t)0))] * ((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((int64_t)threadIdx.x) & (int64_t)1)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) * ((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)8) + (((int64_t)threadIdx.x) >> (int64_t)1)) % (int64_t)14)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/)))))));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) resize2d1_kernel(float* __restrict__ gv28, float* __restrict__ resize) {
+  if (((((int64_t)blockIdx.x) * (int64_t)4) + (((int64_t)threadIdx.x) >> (int64_t)8)) < (int64_t)1575) {
+    int64_t cse_v1 = ((((((int64_t)blockIdx.x) * (int64_t)128) + (((int64_t)threadIdx.x) >> (int64_t)3)) / (int64_t)525) * (int64_t)1050);
+    float cse_v2 = (((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/);
+    float cse_v3 = (((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/);
+    resize[((((int64_t)blockIdx.x) * (int64_t)1024) + ((int64_t)threadIdx.x))] = ((((gv28[((((((((int64_t)blockIdx.x) * (int64_t)128) + (((int64_t)threadIdx.x) >> (int64_t)3)) / (int64_t)525) * (int64_t)1050) + (max(min(((int64_t)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)6), (int64_t)0) * (int64_t)150)) + max(min(((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)149), (int64_t)0))] * (0x1p+0f/*1.000000e+00*/ - ((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (gv28[((((((((int64_t)blockIdx.x) * (int64_t)128) + (((int64_t)threadIdx.x) >> (int64_t)3)) / (int64_t)525) * (int64_t)1050) + (max(min(((int64_t)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)6), (int64_t)0) * (int64_t)150)) + max(min((((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)149), (int64_t)0))] * ((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) * (0x1p+0f/*1.000000e+00*/ - ((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (((gv28[((((((((int64_t)blockIdx.x) * (int64_t)128) + (((int64_t)threadIdx.x) >> (int64_t)3)) / (int64_t)525) * (int64_t)1050) + (max(min((((int64_t)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)6), (int64_t)0) * (int64_t)150)) + max(min(((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))), (int64_t)149), (int64_t)0))] * (0x1p+0f/*1.000000e+00*/ - ((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) + (gv28[((((((((int64_t)blockIdx.x) * (int64_t)128) + (((int64_t)threadIdx.x) >> (int64_t)3)) / (int64_t)525) * (int64_t)1050) + (max(min((((int64_t)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)6), (int64_t)0) * (int64_t)150)) + max(min((((int64_t)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))) + (int64_t)1), (int64_t)149), (int64_t)0))] * ((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)(((((int64_t)blockIdx.x) * (int64_t)124) + ((int64_t)threadIdx.x)) % (int64_t)300)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/))))))) * ((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/) - ((float)((int)floorf((((((float)((((((int64_t)blockIdx.x) * (int64_t)256) + (((int64_t)threadIdx.x) >> (int64_t)2)) % (int64_t)1050) / (int64_t)75)) + 0x1p-1f/*5.000000e-01*/) * 0x1p-1f/*5.000000e-01*/) - 0x1p-1f/*5.000000e-01*/)))))));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) selu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv24) {
+  int cse_v1 = (((int)blockIdx.x) * 8);
+  if (((((int)blockIdx.x) * 8) + (((int)threadIdx.x) >> 7)) < 21) {
+    int cse_v2 = (((((((((int)blockIdx.x) * 64) + (((int)threadIdx.x) >> 4)) / 7) * 112) + (((((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 2)) % 28) / 7) * 28)) + ((((((int)blockIdx.x) * 8) + (((int)threadIdx.x) >> 1)) % 14) * 2)) + (((int)threadIdx.x) & 1));
+    T_multiply[(((((((((int)blockIdx.x) * 64) + (((int)threadIdx.x) >> 4)) / 7) * 112) + (((((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 2)) % 28) / 7) * 28)) + ((((((int)blockIdx.x) * 8) + (((int)threadIdx.x) >> 1)) % 14) * 2)) + (((int)threadIdx.x) & 1))] = (0x1.0cfabd6a91132p+0f/*1.050701e+00*/ * (max(gv24[(((((((((int)blockIdx.x) * 64) + (((int)threadIdx.x) >> 4)) / 7) * 112) + (((((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 2)) % 28) / 7) * 28)) + ((((((int)blockIdx.x) * 8) + (((int)threadIdx.x) >> 1)) % 14) * 2)) + (((int)threadIdx.x) & 1))], 0x0p+0f/*0.000000e+00*/) + min(0x0p+0f/*0.000000e+00*/, (0x1.ac5afad782cf1p+0f/*1.673263e+00*/ * (expf(gv24[(((((((((int)blockIdx.x) * 64) + (((int)threadIdx.x) >> 4)) / 7) * 112) + (((((((int)blockIdx.x) * 4) + (((int)threadIdx.x) >> 2)) % 28) / 7) * 28)) + ((((((int)blockIdx.x) * 8) + (((int)threadIdx.x) >> 1)) % 14) * 2)) + (((int)threadIdx.x) & 1))]) - 0x1p+0f/*1.000000e+00*/)))));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) silu_kernel(float* __restrict__ T_multiply, float* __restrict__ gv20) {
+  if (((int)threadIdx.x) < 4) {
+    T_multiply[((int)threadIdx.x)] = (gv20[((int)threadIdx.x)] * (0x1p+0f/*1.000000e+00*/ / (0x1p+0f/*1.000000e+00*/ + expf((0x0p+0f/*0.000000e+00*/ - gv20[((int)threadIdx.x)])))));
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) strided_slice_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv3) {
+  if (((int)threadIdx.x) < 16) {
+    T_strided_slice_with_axes[((int)threadIdx.x)] = gv3[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) strided_slice1_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv33) {
+  if (((int)threadIdx.x) < 146) {
+    T_strided_slice_with_axes[((int)threadIdx.x)] = gv33[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) strided_slice2_kernel(float* __restrict__ T_strided_slice_with_axes, float* __restrict__ gv43) {
+  if (((int)threadIdx.x) < 9) {
+    T_strided_slice_with_axes[((int)threadIdx.x)] = gv43[((int)threadIdx.x)];
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) subtract_kernel(float* __restrict__ T_subtract, float* __restrict__ gv54) {
+  if (((int)threadIdx.x) < 9) {
+    T_subtract[((int)threadIdx.x)] = (gv54[((int)threadIdx.x)] - 0x1p+0f/*1.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_abs_kernel(float* __restrict__ compute, float* __restrict__ v_24_2wuqvra2) {
+  if (((int)threadIdx.x) < 896) {
+    compute[((int)threadIdx.x)] = fabsf(v_24_2wuqvra2[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_clip_kernel(float* __restrict__ compute, float* __restrict__ gv8) {
+  if (((int)threadIdx.x) < 16) {
+    compute[((int)threadIdx.x)] = max(min(gv8[((int)threadIdx.x)], 0x1p+0f/*1.000000e+00*/), 0x0p+0f/*0.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_exp_kernel(float* __restrict__ compute, float* __restrict__ gv50) {
+  if (((int)threadIdx.x) < 9) {
+    compute[((int)threadIdx.x)] = expf(gv50[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_log1_kernel(float* __restrict__ compute, float* __restrict__ gv49) {
+  if (((int)threadIdx.x) < 9) {
+    compute[((int)threadIdx.x)] = logf(gv49[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_negative_kernel(float* __restrict__ compute, float* __restrict__ v_3_y3gm1rr5) {
+  if (((int)threadIdx.x) < 672) {
+    compute[((int)threadIdx.x)] = (v_3_y3gm1rr5[((int)threadIdx.x)] * -0x1p+0f/*-1.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_negative1_kernel(float* __restrict__ compute, float* __restrict__ gv65) {
+  if (((int)threadIdx.x) < 1) {
+    compute[0] = (gv65[0] * -0x1p+0f/*-1.000000e+00*/);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) tir_round_kernel(float* __restrict__ compute, float* __restrict__ v_12_8osve105) {
+  if (((int)threadIdx.x) < 168) {
+    compute[((int)threadIdx.x)] = nearbyintf(v_12_8osve105[((int)threadIdx.x)]);
+  }
+}
+
+extern "C" __global__ void __launch_bounds__(1024) where_kernel(float* __restrict__ T_where, float* __restrict__ gv50, signed char* __restrict__ gv53, float* __restrict__ gv56) {
+  if (((int)threadIdx.x) < 9) {
+    float condval;
+    if ((0 < ((int)((bool)gv53[((int)threadIdx.x)])))) {
+      condval = gv50[((int)threadIdx.x)];
+    } else {
+      condval = gv56[((int)threadIdx.x)];
+    }
+    T_where[((int)threadIdx.x)] = condval;
+  }
+}
